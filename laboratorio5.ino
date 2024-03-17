@@ -2,15 +2,16 @@ int ledPin = 13; // Pin del LED
 
 void setup() {
   pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
+  Serial.begin(9600); // Inicializa la comunicación serial 
 }
 
 void loop() {
-  // Enciende el LED durante 3 segundos
-  digitalWrite(ledPin, HIGH); // Enciende el LED
-  delay(3000); // Espera 3 segundos
-
-  // Apaga el LED durante 1 segundo
-  digitalWrite(ledPin, LOW); // Apaga el LED
-  delay(1000); // Espera 1 segundo
+  if (Serial.available() > 0) { 
+    char command = Serial.read(); // Lee el comando enviado desde Python
+    if (command == 'A') { // Si el comando es 'A', enciende el LED
+      digitalWrite(ledPin, HIGH); // Enciende el LED
+    } else if (command == 'B') { // Si el comando es 'B', apaga el LED
+      digitalWrite(ledPin, LOW); // Apaga el LED
+    }
+  }
 }
-
